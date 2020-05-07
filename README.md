@@ -9,7 +9,7 @@ https://drive.google.com/open?id=1rXATkv_IdEsyWNiYeLXXcs1L1Pn4-cHw
 
 ## Configuration
 
-éditer le fichier Alpha_Vantage/Alpha_vantageToDb.py\
+- éditer le fichier Alpha_Vantage/Alpha_vantageToDb.py
 ```python
 key = "YOUR_KEY"
 ```
@@ -22,11 +22,11 @@ secret_key = 'YOUR_SECRET_KEY'
 ```
 mettre votre clé binance, nécessaire pour recevoir des données de l'api
 
-éditer le fichier l3l1/l3l1/settings.py\
+- éditer le fichier l3l1/l3l1/settings.py
 ```python
 SECRET_KEY = 'YOUR_SECRET_KEY'
 ```
-votre clé django\
+mettre votre clé django\
 puis
 ```python
 ADMINs = (
