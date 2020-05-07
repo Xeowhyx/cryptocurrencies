@@ -10,32 +10,45 @@ https://drive.google.com/open?id=1rXATkv_IdEsyWNiYeLXXcs1L1Pn4-cHw
 ## Configuration
 
 éditer le fichier Alpha_Vantage/Alpha_vantageToDb.py\
-key="YOUR_KEY"\
+```python
+key = "YOUR_KEY"
+```
 mettre votre clé alpha avantage, nécessaire pour recevoir des données de l'api
 
 éditer le fichier Binance/key.py\
+```python
+public_key = 'YOUR_PUBLIC_KEY'
+secret_key = 'YOUR_SECRET_KEY'
+```
 mettre votre clé binance, nécessaire pour recevoir des données de l'api
 
 éditer le fichier l3l1/l3l1/settings.py\
-SECRET_KEY = 'YOUR_SECRET_KEY'\
+```python
+SECRET_KEY = 'YOUR_SECRET_KEY'
+```
 votre clé django\
 puis\
-ADMINs =(\
-    ('YOUR_USER_NAME','YOUR_MAIL_ADRESS')\
-)\
+```python
+ADMINs = (
+    ('YOUR_USER_NAME','YOUR_MAIL_ADRESS')
+)
+```
 mettre votre compte admin, nécessaire pour accéder à la page administrateur\
 puis\
-EMAIL_USE_TLS=True\
-EMAIL_HOST='smtp.gmail.com'\
-EMAIL_HOST_USER='YOUR_MAIL_ADRESS'\
-EMAIL_HOST_PASSWORD='YOUR_PWD'\
-EMAIL_PORT=587\
+```
+EMAIL_USE_TLS=True
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='YOUR_MAIL_ADRESS'
+EMAIL_HOST_PASSWORD='YOUR_PWD'
+EMAIL_PORT=587
+```
 mettre votre adresse mails, necessaire à la confirmation de compte lors d'inscription
 
 
 ## Requirements
-
-pip install -r requirements.txt\
+```
+pip install -r requirements.txt
+```
 Django 3.0.2
 
 ## Note
