@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load chiffresignificatif %}
+{% block header %}
+    <script>
+        $(document).ready( function () {
+            $('#portefeuille_tab').DataTable({
+                paging:false,
+                info:false
+            });
+        } );
+    </script>       
+{% endblock header %}
+{% block title %}
+	Mon portefeuille
+{% endblock title %}
+
+{% block content %}
+<main>
+    <div class="container-fluid">
+        <div class="card mb-4">
+            <div class="card mb-4">
+                <div class="card-header"><h1 class="mt-4">Mon portefeuille d'actifs</h1></div>
+            </div>
+            <div class="card-body">
+                {#formulaire pour faire son choix sur la crypto et le marché où faire l'achat#}
+                <form id="achat" method="post">
+                {% csrf_token %}
+                    <label for="devise">Quantité en Dollars</label>
+                    <input placeholder="Entrez une valeur" type="text" class="input" name="devise" autofocus="autofocus" onfocus="this.select()">
+                    <select form="achat" name="api">
+                        <option>Binance 
+                        <option value="alpha_vantage">Alpha Vantage 
+                        <option>Gecko 
+                    </select>
+                    <select form="achat" name="cryptoToUse">
+                        <option>Bitcoin 
+                        <option>Ethereum
+                        <option>Ripple 
+                        <option value="bitcoin_cash">Bitcoin Cash
+                        <option>Tether
+                        <option>Litecoin
+                        <option>Eos
+                        <option value="binance_coin">Binance Coin 
+                        <option>Cardano
+                    </select>
+                    <button>Acheter</button>
+                </form>
+                <div class="card mb-4">
+                    <div class="card-header"><i class="fas fa-table mr-1"></i>Mes actifs</div>
+                    <div class="card-body">
+                        <p>Balance du portefeuille : {{balance}} $</p>
+                        {#tableau contenant tous les actifs de l'utilisateur#}
+                        <table class="table table-bordered" id="portefeuille_tab" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Api</th>
+                                    <th scope="col">Dollars</th>
+                                    <th scope="col">Valeur</th>
+                                    <th scope="col">Data d'achat</th>
+                                    <th scope="col">Gains/Pertes</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for actif in actifs_tab %}
+                                    <tr>
+                                        {% for k , v in actif.items %} 
+                                            {#Si la clé est id alors on ne veut pas afficher l'id maisle bouton vendre qui permetra de vendre le bon actif avec le bon id#}   
+                                            {% if k == 'id'  %}
+                                            <td>                 
+                                            <form id="vente" action="" method="post">
+                                            {% csrf_token %}                                
+                                            <button value={{v}} name="vendre">Vendre</button>
+                                            </form>
+                                            </td>
+                                            {% else %}
+                                            <td>{{v|chiffresignificatif}}</td>
+                                            {% endif %}
+                                        {% endfor %}                          
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

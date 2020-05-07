@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+
+
+{% block header%}
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.0.0.min.js"></script>
+{{ script | safe }}
+{{ script2 | safe }}
+{% endblock header %}
+{% block title %}
+	Détails
+{% endblock title %}
+
+
+{% block content %}
+<main>
+	<div class="container-fluid">
+		<div class="card mb-4">
+        	<div class="card-header"><h1 class="mt-4">Graphiques</h1></div>
+		</div>
+		<div class="row">
+            <div class="col-xl-6">
+				<div class="card mb-4">
+					<div class="card-header"><i class="fas fa-chart-area mr-1"></i>Cours de la cryptomonnaie {{crypto|title}}</div>
+					<div class="card-body">
+						{{div|safe}}
+					</div>
+					<div class="card-footer small text-muted">
+						 Mise à jour toutes les minutes
+                        <form class="row justify-content-end" value="binance" id="choix_API" name="choix_API" method="post">
+                        {% csrf_token %}
+                            <select  value="gecko" id="API" name="API">
+                            	<option value="" selected disabled hidden>--Choix de l'API--</option>
+                                <option value="binance">Binance</option>
+                                <option value="gecko">Gecko</option>
+                                <option value="alpha_vantage">Alpha Vantage</option>
+                            </select>
+                            <select  value="gecko" id="duree" name="duree">
+                            	<option value="" selected disabled hidden>--Choix de la période--</option>
+                                <option value="j">1 jour</option>
+				<option value="s">1 semaine</option>
+                                <option value="um">1 mois</option>
+                                <option value="sm">6 mois</option>
+                                <option value="a">1 an</option>
+				<option value="t">Depuis toujours</option>
+                            </select> 
+                            <button >Envoyer</button>
+                        </form>
+					</div>
+					<h1>À propos</h1>
+					<p>{{about}}</p>
+					<p>Pour plus d'information <a href="{{link}}" target="_blank">{{link}}</a></p>
+				</div>
+			</div>
+			<div class="col-xl-6">
+				<div class="card mb-4">
+					<div class="card-header"><i class="fas fa-chart-area mr-1"></i>Indicateurs Techniques</div>
+					<div class="card-body">{{div2|safe}}</div>
+					<div class="card-footer small text-muted">Mise à jour tous les jours</div>
+				</div> 
+			</div>
+		</div>        
+	</div>
+</main>
+{% endblock %}
+
+
+
+
+
+

@@ -1,0 +1,103 @@
+{# Modal sur les preferences#}
+<div class="modal" tabindex="-1" role="dialog" id="pref">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title font-weight-light">Mes Préférences</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body justify-content-between" id="pref_body">
+                <div class="container-fluid">
+                    {#Formulaire cqui va contenir toutes les preferences que l'utilisatuer pourra choisir#}
+                    <form class="form" method="post">
+                        {% csrf_token %}
+                        {#Preference pour les APIs#}
+                        <div class="form-group row">
+                            <div class="d-flex flex-column">
+                                <label>Mon API:</label>
+                                <div class="p-2">
+                                    <input type="radio" id="pref_binance" name="pref_api" value="binance"checked>
+                                    <label for="pref_binance">Binance</label>
+                                
+                                    <input type="radio" id="pref_alpha" name="pref_api" value="alpha_vantage">
+                                    <label for="pref_alpha">Alpha Vantage</label>
+            
+                                    <input type="radio" id="pref_gecko" name="pref_api" value="gecko">
+                                    <label for="pref_gecko">Gecko</label>
+                                </div>
+                            </div>
+                        </div>
+                        {#Preference pour les Zooms#}
+                        <div class="form-group row">
+                            <div class="d-flex flex-column">
+                                <label>Mon Zoom:</label>
+                                <div class="p-2">
+                                    <input type="radio" id="pref_j" name="pref_zoom" value="j"checked>
+                                    <label for="pref_j">1 jour</label>
+                                    
+                                    <input type="radio" id="pref_s" name="pref_zoom" value="s">
+                                    <label for="pref_s">1 semaine</label>
+
+                                    <input type="radio" id="pref_um" name="pref_zoom" value="um">
+                                    <label for="pref_um">1 mois</label>        
+                                </div>
+                                <div class="p-2">
+                                    <input type="radio" id="pref_sm" name="pref_zoom" value="sm">
+                                    <label for="pref_sm">6 mois</label>
+                                
+                                    <input type="radio" id="pref_a" name="pref_zoom" value="a">
+                                    <label for="pref_a">1 an</label>
+
+                                    <input type="radio" id="pref_t" name="pref_zoom" value="t">
+                                    <label for="pref_t">Depuis Toujours</label>
+                                </div> 
+                            </div>    
+                        </div>
+                        {#Preference pour les indicateurs techniques#}
+                        <div class="form-group row">
+                            <div class="d-flex flex-column">
+                                <label>Mon Indicateur Techniques:</label>
+                                <div class="p-2">
+                                    <input type="radio" id="ind_adx" name="pref_ind" value="ADX"checked>
+                                    <label for="ind_adx">ADX</label>
+
+                                    <input type="radio" id="ind_macd" name="pref_ind" value="MACD">
+                                    <label for="ind_macd">MACD</label>
+
+                                    <input type="radio" id="ind_obv" name="pref_ind" value="OBV">
+                                    <label for="ind_obv">OBV</label>        
+                                </div>
+                                <div class="p-2">
+                                    <input type="radio" id="ind_pp" name="pref_ind" value="PP">
+                                    <label for="ind_pp">Point De Pivot</label>
+                                
+                                    <input type="radio" id="ind_rsi" name="pref_ind" value="RSI">
+                                    <label for="ind_rsi">RSI</label>
+
+                                    <input type="radio" id="ind_sma" name="pref_ind" value="SMA">
+                                    <label for="ind_sma">Simple Moving Average</label>
+                                </div>
+                                <div class="p-2">
+                                    <input type="radio" id="ind_bb" name="pref_ind" value="BB">
+                                    <label for="ind_bb">Bandes de Boilinger</label>
+                                </div>    
+                            </div> 
+                        </div>
+                    </form>
+                    {#div qui sera aficher s'il ya une erreur, par defautl n'est pas visible#}
+                    <div id="ajax-errors_pref" class="alert alert-danger" role="alert" style="display:none">
+                        <p><strong>Oops</strong></p>
+                        <span>L'enregistrement n'a pas pu se faire... Réessayez plus tard !</span>
+                    </div>
+                </div>
+            </div>
+            {#Footer permetant d'enregistrer ses preferences#}
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-primary ml-auto" id="enregistrer_btn" style="display:flex">Enregistrer<i id="pref-load-icon"></i></button>
+                <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

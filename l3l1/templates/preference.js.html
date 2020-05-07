@@ -1,0 +1,41 @@
+<script>
+
+    $('#enregistrer_btn').click(function(){
+        // on recupere toutes les donnees du formulaire 
+        var pref_api = $("input[name=pref_api]:checked").val();
+        var pref_zoom = $("input[name=pref_zoom]:checked").val();
+        var pref_ind = $("input[name=pref_ind]:checked").val();
+        //preparation de l'icon de chargement
+        var load_icon = $('#pref-load-icon');
+        load_icon.addClass('gg-spinner-alt');
+
+        $.ajax({
+            //Creation de la requete
+            type : "POST",
+            url : "/compte/preference",
+            data:{
+                pref_api : pref_api,
+                pref_zoom : pref_zoom,
+                pref_ind : pref_ind,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            //si tout se passe bien
+            success: function (response){
+                $('#pref_body').html("<div class='text-center'>Vos préférences ont bien été enregistrées !!!</div>");
+                $("#enregistrer_btn").css("display", "none");
+
+            },
+            //s'il y a une erreur
+            error: function (response){
+            
+                var ajax_errors = $('#ajax-errors_pref');
+                ajax_errors.css('display','block');
+            },
+            //action a realiser apres un succes
+            complete: function(){
+                load_icon.removeClass('gg-spinner-alt')
+            },
+        });
+    });
+
+</script>

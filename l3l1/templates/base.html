@@ -1,0 +1,149 @@
+{% load static %}
+{% include "signup.html" %}
+{% include "signin.html" %}
+{% include "preference.html" %}
+{% include "change_password.html" %}
+{% include "password_reset.html" %}
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		{#ajout du plugin DataTable pour trier le tableau #}
+		<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+		<link href="https://css.gg/css?=|home|loadbar-alt|spinner-alt" rel="stylesheet">
+		<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+
+		
+
+		{% block header %}{% endblock header %}
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+		<title>{% block title %}Historique des cryptomonnaies projet L3L1{% endblock %}</title>
+	</head>
+	<body class="sb-nav-fixed">
+	    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url 'home' %}">L3L1</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        {% if request.user.is_authenticated %}
+							<button class="btn dropdown-item" type="button" data-toggle="modal" data-target="#pref">Mes préférences</button>
+							<button class="btn dropdown-item" type="button" data-toggle="modal" data-target="#change_password">Changer de mot de passe</button>
+							<a class="dropdown-item" href={% url 'logout' %}>Se déconnecter</a>			
+						{% else %}
+							<button class="btn dropdown-item" type="button" data-toggle="modal" data-target="#pref">Mes préférences</button>
+							<button class="btn dropdown-item" type="button" data-toggle="modal" data-target="#signin">Se connecter</button>
+							<button class="btn dropdown-item" type="button" data-toggle="modal" data-target="#signup">Créer un compte</button>
+						{% endif %}
+                    </div>
+                </li>
+            </ul>
+        </nav>
+		<div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Cryptomonnaie</div>
+								<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDetails" aria-expanded="false" aria-controls="collapseLayouts"
+									><div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+									Détails
+									<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+								></a>
+								<div class="collapse" id="collapseDetails" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+								<nav class="sb-sidenav-menu-nested nav">
+									<a class="nav-link" href="{% url 'detail' 'bitcoin' %}"
+										><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+										Bitcoin
+									</a>
+									<a class="nav-link" href="{% url 'detail' 'ethereum' %}"
+										><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+										Ethereum
+									</a>
+									<a class="nav-link" href="{% url 'detail' 'ripple' %}"
+										><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+										Ripple
+									</a>
+									<a class="nav-link" href="{% url 'detail' 'bitcoin_cash' %}"
+										><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+										Bitcoin Cash
+									</a>
+									<a class="nav-link" href="{% url 'detail' 'bitcoin_sv' %}"
+										><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+										Bitcoin SV
+									</a>
+									<a class="nav-link" href="{% url 'detail' 'tether' %}"
+										><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+										Tether
+									</a>
+									<a class="nav-link" href="{% url 'detail' 'litecoin' %}"
+										><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+										Litecoin
+									</a>
+									<a class="nav-link" href="{% url 'detail' 'eos' %}"
+										><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+										Eos
+									</a>
+									<a class="nav-link" href="{% url 'detail' 'binance_coin' %}"
+										><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+										Binance Coin
+									</a>
+									<a class="nav-link" href="{% url 'detail' 'cardano' %}"
+										><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+										Cardano
+									</a>
+								</nav>
+							</div>
+								<div class="sb-sidenav-menu-heading">Compte</div>
+								{% if request.user.is_authenticated %}
+									<a class="nav-link" href="{% url 'portefeuille' %}">
+								{% else %}
+									<a id="lien_portefeuille" class="nav-link" href="#" data-dismiss="modal" data-toggle="modal" data-target="#signin">
+								{% endif %}
+								<div class="sb-nav-link-icon"></div>
+									Portefeuille
+								</a>
+                            </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+						{% if request.user.is_authenticated %}
+                        	<div class="small">Connecté en tant que : {{request.user.profile.username}}</div>
+						{% else %}
+							<div class="small">Connecté en tant que : Visiteur</div>
+						{% endif %}
+                         L3L1
+                    </div>
+                </nav>
+            </div>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid" margin="5">
+						{% block content %}{% endblock content%}
+					</div>
+				</main>
+			</div>
+        </div>
+		{% block script %}{% endblock script %}
+		{% include "signup.js.html" %}
+		{% include "signin.js.html" %}
+		{% include "change_password.js.html" %}
+		{% include "preference.js.html" %}
+		{% include "password_reset.js.html"%}
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/scripts.js' %}"></script>		
+		<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>	
+	</body>
+	<footer class="page-footer font-small blue">
+		<div class="text-center">
+			Data provided by : <a href="https://www.binance.com" target="_blank">Binance</a>, <a href="https://www.coingecko.com" target="_blank">CoinGecko</a> and <a href="https://www.alphavantage.co/" target="_blank">Alpha Vantage</a>
+		</div>
+	</footer>
+	
+</html>

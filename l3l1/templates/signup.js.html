@@ -1,0 +1,80 @@
+{# Script pour rendre le modal interactif #}
+<script>
+
+    {# pour que le modal soit réinitialisé après chaque fermeture #}
+
+    {# on clone le modal avant son utilisation #}
+    var originalModalsignup = $('#signup').clone();
+    $(document).ready(function(){
+        //quand le modal a fini d'être caché
+        $(document).on('hidden.bs.modal','#signup',function(){
+            //on supprime le modal qui a été modifié
+            $('#signup').remove();
+            //on le remplace par l'original qu'on a cloné
+            var myClone = originalModalsignup.clone();
+            $('body').append(myClone);
+        });
+
+        //quand le bouton "s'inscrire" est cliqué dans le modal signup
+        $(document).on('click','#signupbutton',function(){
+            // on récupère les données du formulaire du modal
+            var Username = $('#Username').val();
+            var Email = $('#Email').val();
+            var Password = $('#Password').val();
+            var Password_conf = $('#Password_conf').val();
+
+
+            //on ajoute une image de chargement à côté de "envoyer"
+            var load_icon = $('#signup-load-icon');
+            load_icon.addClass('gg-spinner-alt');
+
+
+            $.ajax({
+                
+                // les données à envoyer à la view pour changer le mot de passe
+                type : "POST",
+                url : "/compte/signup",
+                data:{
+                    username : Username,
+                    email : Email,
+                    password1 : Password,
+                    password2 : Password_conf,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+
+                //si l'inscription est réussie
+                success: function (response){
+                    //on change le corps du modal
+                    $('#signup_body').html("<div class='text-center'>Félicitations vous êtes correctement inscrits.<br>Veuillez à présent confirmer votre adresse mail en cliquant sur le lien que nous vous avons envoyé à l'adresse : "+Email+"</div>");
+                    //on cache les boutons inutiles
+                    $('#signupbutton').css('display','none');
+                    $('#lien_redirect_signin').css('display','none');
+                },
+
+                //si la réponse est un échec 
+                error: function (response){
+                
+                    //on affiche le message d'erreur personnalisé avec les données envoyées par la réponse
+                    var title = response.responseJSON['title'];
+                    var message = response.responseJSON['message'];
+                    
+                    var message_errors = ""
+                    
+                    //on regroupe les différents messages d'erreur
+                    for (var key in message){
+                        message_errors+= message[key]+"<br>";
+                    }
+                    var ajax_errors = $('#ajax-errors');
+                    ajax_errors.css('display','block');
+                    ajax_errors.find('strong').html(title);
+                    ajax_errors.find('span').html(message_errors);
+                },
+                complete: function(){
+                    //on retire l'image de chargement à côté du bouton "s'inscrire"
+                    load_icon.removeClass('gg-spinner-alt')
+                },
+            });
+        });
+    });
+
+</script>

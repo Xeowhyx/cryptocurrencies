@@ -1,0 +1,7 @@
+{% autoescape off %}
+Bonjour {{ user.username }},
+
+Merci de cliquer sur le lien suivant pour confirmer la création de votre compte:
+
+https://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+{% endautoescape %}

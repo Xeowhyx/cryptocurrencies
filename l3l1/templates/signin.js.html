@@ -1,0 +1,69 @@
+{# Script pour rendre le modal interactif #}
+<script>
+
+    {# pour que le modal soit réinitialisé après chaque fermeture #}
+
+    {# on clone le modal avant son utilisation #}
+    var originalModalsignin = $('#signin').clone();
+    $(document).ready(function(){
+        //quand le modal a fini d'être caché
+        $(document).on('hidden.bs.modal','#signin', function(){
+            //on supprime le modal qui a été modifié
+            $('#signin').remove();
+            //on le remplace par l'original qu'on a cloné
+            var myClone = originalModalsignin.clone();
+            $('body').append(myClone);
+        });
+
+        //quand le bouton "se connecter" est cliqué dans le modal signin
+        $(document).on('click','#signinbutton',function(){
+            // on récupère les données du formulaire du modal
+            var Username = $('#Usernamelogin').val();
+            var Password = $('#Passwordlogin').val();
+
+
+            //on ajoute une image de chargement à côté de "se connecter"
+            var load_icon = $('#signin-load-icon');
+            load_icon.addClass('gg-spinner-alt');
+
+
+            $.ajax({
+                
+                // les données à envoyer à la view pour se connecter
+                type : "POST",
+                url : "/compte/signin",
+                data:{
+                    username : Username,
+                    password : Password,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+
+                //si la connexion est réussie
+                success: function (response){
+                    
+                    //on change le corps du modal
+                    $('#signin_body').html("<div class='text-center'>Bienvenue "+Username+" !!!</div>");
+                    //on recharge la page pour mettre à jour les données
+                    window.location.reload()
+                },
+
+                //si la réponse est un échec 
+                error: function (response){
+                
+                    //on affiche le message d'erreur personnalisé avec les données envoyées par la réponse
+                    var title = response.responseJSON['title'];
+                    var message = response.responseJSON['message'];
+                    var ajax_errors = $('#ajax-errors_login');
+                    ajax_errors.css('display','block');
+                    ajax_errors.find('strong').html(title);
+                    ajax_errors.find('span').html(message);
+                },
+                complete: function(){
+                    //on retire l'image de chargement à côté du bouton "se connecter"
+                    load_icon.removeClass('gg-spinner-alt')
+                },
+            });
+        });
+    });
+
+</script>

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load replace_ %}
+{% load logo %}
+{% load chiffresignificatif %}
+
+{% block header %}
+
+<script>
+	{% comment %}
+		Script pour gérer le plugin DataTable.
+		paging = pagination du tableau.
+		info = nombre d'éléments par page et à quelle page on est.
+		order = choisir de trier le tableau selon la deuxième colonne "Capitalisation boursière" par défaut.
+	{% endcomment %}
+	 $(document).ready( function () {
+        $('#tabAccueil').DataTable({
+			"dom": '<<t>flip>',
+            paging:false,
+            info:false,
+            "order": [[ 1, "desc" ]]
+            });
+        } );
+
+</script>
+
+{% endblock header %}
+
+
+{% block content %}
+<div class="card mb-4">
+	<div class="card mb-4">
+        <div class="card-header"><h1 class="mt-4">Statistiques générales des cryptomonnaies selon {{API|replace_|title}}</h1></div>
+	</div>
+	<div class="card-body">
+		<div class="card mb-4">
+			<div class="card-header"><i class="fas fa-table mr-1"></i>{{API|replace_|title}}</div>
+			<div class="card-body">	
+				{# Création d'un formulaire pour permettre à un utilisateur de choisir l'API qu'il veut. #}
+				<div id="choix_API">
+					<form id="choix_API" name="choix_API" method="post">
+					{% csrf_token %}
+						<select onchange="document.choix_API.submit()" id="API" name="API">
+							<option value="" selected disabled hidden>{{API|replace_|title}}</option>
+							<option value="Binance">Binance</option>
+							<option value="Gecko">Gecko</option>
+							<option value="Alpha_Vantage">Alpha Vantage</option>
+						</select>
+					</form>
+				</div>
+				{# Creation du tableau avec les données passées depuis la view home #}
+				<div class="table-responsive">
+					<table class="table table-bordered" id="tabAccueil" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Capitalisation boursière</th>
+								<th>Cours €</th>
+								<th>Cours $</th>
+								<th>Volume 24h</th>
+								<th>Variations heure</th>
+								<th>Variations jour</th>
+								<th>Variations semaine</th>
+							</tr>
+						</thead>
+						{# Utilisation d'une boucle pour parcourir le dictionnaire de dictionnaire envoyé par 'home' #}
+						<tbody>
+							{% for crypto, value in tableau.items %}
+								<tr>
+									<td><a href="{% url 'detail' crypto|lower %}">
+											<img src="{% static 'images/'|add:crypto|add:'.png' %}" width="35" hight="35"> <b>{{crypto|logo}}</b> {{crypto|replace_}} 							
+									</a></td> 
+									{% for champ,res in value.items %}
+											{% if res != None and "taux" in champ %}
+												{% if res < 0 %}
+													<td><span style="color:red">{{res|chiffresignificatif}}</span></td>
+												{% elif res >= 0 %}
+													<td><span style="color:green">{{res|chiffresignificatif}}</span></td>
+												{% endif %}
+											{% else %}
+												<td>{{res|chiffresignificatif}}</td>
+											{% endif %}
+											
+									{% endfor %}
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
