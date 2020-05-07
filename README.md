@@ -27,14 +27,14 @@ mettre votre clé binance, nécessaire pour recevoir des données de l'api
 SECRET_KEY = 'YOUR_SECRET_KEY'
 ```
 votre clé django\
-puis\
+puis
 ```python
 ADMINs = (
     ('YOUR_USER_NAME','YOUR_MAIL_ADRESS')
 )
 ```
 mettre votre compte admin, nécessaire pour accéder à la page administrateur\
-puis\
+puis
 ```
 EMAIL_USE_TLS=True
 EMAIL_HOST='smtp.gmail.com'
