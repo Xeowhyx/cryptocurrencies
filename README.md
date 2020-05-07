@@ -2,7 +2,7 @@
 
 ## Vidéo présentation
 
-https://drive.google.com/open?id=13xil6HJ-w_AECNaFHPCnBdQkxDRWYlJx\
+https://drive.google.com/open?id=13xil6HJ-w_AECNaFHPCnBdQkxDRWYlJx \
 https://drive.google.com/open?id=1rXATkv_IdEsyWNiYeLXXcs1L1Pn4-cHw
 
 
@@ -42,6 +42,6 @@ les scripts suivant permettent de remplir la bdd influxDB:\
 Alpha_Vantage\Alpha_vantageToDb.py\
 Binance\BinanceToDbMinute.py\
 CoinGecko\min.py\
-Ajouter ses fichiers dans crontab, et les faires exécuter chaque minutes.
+Exécutez les chaques minutes, avec par exemple l'outils crontab.
 
 Pour avoir votre clé, et savoir précisement la limite des requetes des API veuillez regarder la documentation de Alpha Vantage, Binance, CoinGecko
