@@ -15,7 +15,7 @@ key = "YOUR_KEY"
 ```
 mettre votre clé alpha avantage, nécessaire pour recevoir des données de l'api
 
-éditer le fichier Binance/key.py\
+- éditer le fichier Binance/key.py\
 ```python
 public_key = 'YOUR_PUBLIC_KEY'
 secret_key = 'YOUR_SECRET_KEY'
