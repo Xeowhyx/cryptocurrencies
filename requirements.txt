@@ -55,5 +55,5 @@ Twisted==20.3.0
 txaio==20.1.1
 typing-extensions==3.7.4.1
 tzlocal==2.0.0
-urllib3==1.25.8
+urllib3==1.26.5
 zope.interface==5.1.0
