@@ -25,7 +25,7 @@ kiwisolver==1.1.0
 MarkupSafe==1.1.1
 matplotlib==3.2.1
 mplfinance==0.12.3a3
-numpy==1.18.2
+numpy==1.22.0
 packaging==20.3
 pandas==1.0.3
 parameterized==0.7.4
